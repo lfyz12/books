@@ -1,0 +1,28 @@
+body {
+    background-color: #f5f6f8;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+.auth-card {
+    max-width: 420px;
+    margin: 60px auto;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.table td, .table th {
+    vertical-align: middle;
+}
+
+.actions {
+    white-space: nowrap;
+}

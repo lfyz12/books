@@ -1,0 +1,13 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Run BookstoreApplication",
+            "request": "launch",
+            "mainClass": "ru.urfu.bookstore.BookstoreApplication",
+            "projectName": "bookstore",
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}

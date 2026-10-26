@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Журнал действий')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container">
+    <h1 class="h3 mb-1">Журнал действий</h1>
+    <p class="text-muted">
+        <span sec:authorize="hasRole('ADMIN')">Действия всех пользователей.</span>
+        <span sec:authorize="!hasRole('ADMIN')">Ваши действия в приложении.</span>
+        Записи хранятся в таблице <code>user_actions</code> и дублируются в файл <code>logs/bookstore.log</code>.
+    </p>
+
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-sm table-hover mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th style="width: 180px">Дата и время</th>
+                    <th style="width: 150px">Пользователь</th>
+                    <th>Действие</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="action : ${actions}">
+                    <td th:text="${#temporals.format(action.dateAction, 'dd.MM.yyyy HH:mm:ss')}">01.01.2026</td>
+                    <td th:text="${action.username}">user</td>
+                    <td th:text="${action.description}">Действие</td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(actions)}">
+                    <td colspan="3" class="text-center text-muted py-4">Записей пока нет</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

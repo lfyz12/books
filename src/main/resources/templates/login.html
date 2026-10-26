@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Вход')}"></head>
+<body>
+<main class="container">
+    <div class="card shadow-sm auth-card">
+        <div class="card-body p-4">
+            <h1 class="h3 mb-3 text-center">📚 Книжный каталог</h1>
+            <h2 class="h5 mb-3 text-center text-muted">Вход в приложение</h2>
+
+            <!-- Сообщения, которые Spring Security передаёт через параметры адреса -->
+            <div th:if="${param.error}" class="alert alert-danger">Неверный логин или пароль</div>
+            <div th:if="${param.logout}" class="alert alert-info">Вы вышли из системы</div>
+            <div th:if="${param.registered}" class="alert alert-success">
+                Регистрация прошла успешно. Войдите под своим логином.
+            </div>
+
+            <form th:action="@{/login}" method="post">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Логин</label>
+                    <input type="text" id="username" name="username" class="form-control" required autofocus>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Пароль</label>
+                    <input type="password" id="password" name="password" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Войти</button>
+            </form>
+
+            <p class="text-center mt-3 mb-0">
+                Нет аккаунта? <a th:href="@{/register}">Зарегистрироваться</a>
+            </p>
+            <hr>
+            <p class="small text-muted mb-0">
+                Демо-аккаунты: <b>admin</b>/admin (ADMIN), <b>user</b>/user (USER),
+                <b>reader</b>/reader (READ_ONLY)
+            </p>
+        </div>
+    </div>
+</main>
+</body>
+</html>

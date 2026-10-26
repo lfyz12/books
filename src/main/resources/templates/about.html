@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('О приложении')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container">
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <h1 class="h3 mb-3">О приложении</h1>
+
+            <h2 class="h5">Приложение</h2>
+            <p>
+                «Книжный каталог» — веб-приложение для учёта книг и книжных магазинов.
+                Пользователь может вести список магазинов и книг (название, автор, жанр, год издания,
+                цена, количество), рассчитывать стоимость покупки со скидкой и доставкой,
+                просматривать журнал своих действий.
+            </p>
+            <p>
+                В приложении есть три роли: <b>READ_ONLY</b> — только просмотр (выдаётся при регистрации),
+                <b>USER</b> — работа только со своими записями, <b>ADMIN</b> — полный доступ ко всем данным
+                и назначение ролей.
+            </p>
+
+            <h2 class="h5">Технологии</h2>
+            <ul>
+                <li>Java 21, Spring Boot 3.5</li>
+                <li>Spring MVC, Thymeleaf, Bootstrap 5</li>
+                <li>Spring Data JPA (Hibernate), база данных H2</li>
+                <li>Spring Security — вход, роли, шифрование паролей BCrypt</li>
+                <li>Spring Boot Actuator — мониторинг приложения</li>
+                <li>Lombok, Maven</li>
+            </ul>
+
+            <h2 class="h5">Разработчик</h2>
+            <p class="mb-1">Студент: <b>Фамилия Имя Отчество</b></p>
+            <p class="mb-1">Группа: <b>РИ-000000</b></p>
+            <p>УрФУ, Институт радиоэлектроники и информационных технологий — РТФ, 2026 г.</p>
+
+            <a th:href="@{/}" class="btn btn-secondary">← Назад на главную</a>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

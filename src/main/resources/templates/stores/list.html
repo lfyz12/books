@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head('Магазины')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="h3 mb-0">Книжные магазины</h1>
+        <a sec:authorize="hasAnyRole('USER', 'ADMIN')" th:href="@{/stores/new}" class="btn btn-success">
+            + Добавить магазин
+        </a>
+    </div>
+
+    <div th:if="${message}" class="alert alert-success" th:text="${message}"></div>
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                <tr>
+                    <th>Название</th>
+                    <th>Город</th>
+                    <th>Адрес</th>
+                    <th>Создал</th>
+                    <th sec:authorize="hasAnyRole('USER', 'ADMIN')"></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="store : ${stores}">
+                    <td th:text="${store.name}">Название</td>
+                    <td th:text="${store.city}">Город</td>
+                    <td th:text="${store.address}">Адрес</td>
+                    <td th:text="${store.owner?.username}">admin</td>
+                    <td sec:authorize="hasAnyRole('USER', 'ADMIN')" class="actions text-end">
+                        <a th:href="@{/stores/{id}/edit(id=${store.id})}" class="btn btn-sm btn-outline-primary">Изменить</a>
+                        <form th:action="@{/stores/{id}/delete(id=${store.id})}" method="post" class="d-inline"
+                              onsubmit="return confirm('Удалить магазин?');">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(stores)}">
+                    <td colspan="5" class="text-center text-muted py-4">Магазинов пока нет</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

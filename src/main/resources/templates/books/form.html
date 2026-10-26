@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Книга')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container" style="max-width: 720px">
+    <h1 class="h3 mb-3" th:text="${book.id == null} ? 'Новая книга' : 'Изменение книги'">Книга</h1>
+
+    <div th:if="${#lists.isEmpty(stores)}" class="alert alert-warning">
+        Сначала <a th:href="@{/stores/new}">добавьте магазин</a> — книга должна относиться к магазину.
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <!-- th:object связывает форму с объектом book, th:field - поле формы с полем объекта -->
+            <form th:action="@{/books/save}" th:object="${book}" method="post" novalidate>
+                <input type="hidden" th:field="*{id}">
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">Название *</label>
+                    <input type="text" th:field="*{title}" class="form-control"
+                           th:classappend="${#fields.hasErrors('title')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:errors="*{title}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="author" class="form-label">Автор *</label>
+                    <input type="text" th:field="*{author}" class="form-control"
+                           th:classappend="${#fields.hasErrors('author')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:errors="*{author}"></div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="genre" class="form-label">Жанр</label>
+                        <input type="text" th:field="*{genre}" class="form-control"
+                               th:classappend="${#fields.hasErrors('genre')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{genre}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="publishYear" class="form-label">Год издания *</label>
+                        <input type="number" th:field="*{publishYear}" class="form-control"
+                               th:classappend="${#fields.hasErrors('publishYear')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{publishYear}"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="price" class="form-label">Цена, ₽ *</label>
+                        <input type="number" step="0.01" th:field="*{price}" class="form-control"
+                               th:classappend="${#fields.hasErrors('price')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{price}"></div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="quantity" class="form-label">Количество, шт. *</label>
+                        <input type="number" th:field="*{quantity}" class="form-control"
+                               th:classappend="${#fields.hasErrors('quantity')} ? 'is-invalid'">
+                        <div class="invalid-feedback" th:errors="*{quantity}"></div>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="store" class="form-label">Магазин *</label>
+                    <!-- В запросе передаётся id магазина, Spring Data сам находит магазин в БД по id -->
+                    <select th:field="*{store}" class="form-select"
+                            th:classappend="${#fields.hasErrors('store')} ? 'is-invalid'">
+                        <option value="">— выберите магазин —</option>
+                        <option th:each="s : ${stores}" th:value="${s.id}"
+                                th:text="${s.name} + ' (' + ${s.city} + ')'">Магазин</option>
+                    </select>
+                    <div class="invalid-feedback" th:errors="*{store}"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+                <a th:href="@{/books}" class="btn btn-secondary">Отмена</a>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

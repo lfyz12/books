@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Магазин')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container" style="max-width: 720px">
+    <h1 class="h3 mb-3" th:text="${store.id == null} ? 'Новый магазин' : 'Изменение магазина'">Магазин</h1>
+
+    <div class="card shadow-sm">
+        <div class="card-body p-4">
+            <form th:action="@{/stores/save}" th:object="${store}" method="post" novalidate>
+                <input type="hidden" th:field="*{id}">
+
+                <div class="mb-3">
+                    <label for="name" class="form-label">Название *</label>
+                    <input type="text" th:field="*{name}" class="form-control"
+                           th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:errors="*{name}"></div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="city" class="form-label">Город *</label>
+                    <input type="text" th:field="*{city}" class="form-control"
+                           th:classappend="${#fields.hasErrors('city')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:errors="*{city}"></div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="address" class="form-label">Адрес *</label>
+                    <input type="text" th:field="*{address}" class="form-control"
+                           th:classappend="${#fields.hasErrors('address')} ? 'is-invalid'">
+                    <div class="invalid-feedback" th:errors="*{address}"></div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+                <a th:href="@{/stores}" class="btn btn-secondary">Отмена</a>
+            </form>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

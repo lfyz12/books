@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Расчёт стоимости')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container" style="max-width: 900px">
+    <h1 class="h3 mb-3">Расчёт стоимости покупки</h1>
+    <p class="text-muted">
+        Выберите книгу, количество и скидку. Доставка стоит 300 ₽ и бесплатна при сумме заказа
+        со скидкой от 2000 ₽.
+    </p>
+
+    <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <form th:action="@{/calculator}" method="post">
+                        <div class="mb-3">
+                            <label for="bookId" class="form-label">Книга</label>
+                            <select id="bookId" name="bookId" class="form-select" required>
+                                <option th:each="b : ${books}" th:value="${b.id}"
+                                        th:selected="${b.id == bookId}"
+                                        th:text="${b.title} + ' — ' + ${#numbers.formatDecimal(b.price, 1, 'WHITESPACE', 2, 'COMMA')} + ' ₽'">
+                                    Книга
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="quantity" class="form-label">Количество, шт.</label>
+                            <input type="number" id="quantity" name="quantity" class="form-control"
+                                   min="1" max="1000" required th:value="${quantity ?: 1}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="discount" class="form-label">Скидка, %</label>
+                            <input type="number" id="discount" name="discount" class="form-control"
+                                   min="0" max="100" required th:value="${discount ?: 0}">
+                        </div>
+                        <div class="form-check mb-4">
+                            <input type="checkbox" id="delivery" name="delivery" value="true" class="form-check-input"
+                                   th:checked="${delivery}">
+                            <label for="delivery" class="form-check-label">Нужна доставка</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary" th:disabled="${#lists.isEmpty(books)}">
+                            Рассчитать
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6" th:if="${result}">
+            <div class="card shadow-sm border-success">
+                <div class="card-body p-4">
+                    <h2 class="h5 mb-3">Результат</h2>
+                    <table class="table mb-0">
+                        <tr>
+                            <td>Книга</td>
+                            <td class="text-end" th:text="${result.bookTitle}"></td>
+                        </tr>
+                        <tr>
+                            <td>Цена × количество</td>
+                            <td class="text-end"
+                                th:text="${#numbers.formatDecimal(result.price, 1, 'WHITESPACE', 2, 'COMMA')} + ' × ' + ${result.quantity}"></td>
+                        </tr>
+                        <tr>
+                            <td>Сумма без скидки</td>
+                            <td class="text-end"
+                                th:text="${#numbers.formatDecimal(result.subtotal, 1, 'WHITESPACE', 2, 'COMMA')} + ' ₽'"></td>
+                        </tr>
+                        <tr>
+                            <td>Скидка <span th:text="${result.discountPercent} + '%'"></span></td>
+                            <td class="text-end"
+                                th:text="'− ' + ${#numbers.formatDecimal(result.discountSum, 1, 'WHITESPACE', 2, 'COMMA')} + ' ₽'"></td>
+                        </tr>
+                        <tr>
+                            <td>Доставка</td>
+                            <td class="text-end"
+                                th:text="${#numbers.formatDecimal(result.deliveryPrice, 1, 'WHITESPACE', 2, 'COMMA')} + ' ₽'"></td>
+                        </tr>
+                        <tr class="table-success fw-bold">
+                            <td>Итого к оплате</td>
+                            <td class="text-end"
+                                th:text="${#numbers.formatDecimal(result.total, 1, 'WHITESPACE', 2, 'COMMA')} + ' ₽'"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

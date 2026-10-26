@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Главная')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<main class="container">
+    <h1 class="h3">Добро пожаловать, <span th:text="${user.username}">user</span>!</h1>
+    <p class="text-muted">
+        Ваша роль: <b th:text="${user.role}">USER</b>.
+        <span th:switch="${user.role.name()}">
+            <span th:case="'ADMIN'">Вам доступны все данные и управление ролями.</span>
+            <span th:case="'USER'">Вы видите и редактируете только созданные вами записи.</span>
+            <span th:case="*">Вы можете только просматривать данные.</span>
+        </span>
+    </p>
+
+    <!-- Краткая статистика -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted">Книг</div>
+                    <div class="stat-value" th:text="${bookCount}">0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted">Магазинов</div>
+                    <div class="stat-value" th:text="${storeCount}">0</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="text-muted">Стоимость книг в наличии</div>
+                    <div class="stat-value"
+                         th:text="${#numbers.formatDecimal(totalValue, 1, 'WHITESPACE', 2, 'COMMA')} + ' ₽'">0 ₽</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Разделы приложения -->
+    <div class="row g-3">
+        <div class="col-md-4">
+            <a th:href="@{/books}" class="card shadow-sm text-decoration-none h-100">
+                <div class="card-body">
+                    <h2 class="h5">📖 Книги</h2>
+                    <p class="text-muted mb-0">Список книг: название, автор, цена, магазин.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a th:href="@{/stores}" class="card shadow-sm text-decoration-none h-100">
+                <div class="card-body">
+                    <h2 class="h5">🏬 Магазины</h2>
+                    <p class="text-muted mb-0">Список книжных магазинов и их адреса.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a th:href="@{/calculator}" class="card shadow-sm text-decoration-none h-100">
+                <div class="card-body">
+                    <h2 class="h5">🧮 Расчёт стоимости</h2>
+                    <p class="text-muted mb-0">Стоимость покупки книг со скидкой и доставкой.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a th:href="@{/logs}" class="card shadow-sm text-decoration-none h-100">
+                <div class="card-body">
+                    <h2 class="h5">📝 Журнал действий</h2>
+                    <p class="text-muted mb-0">История действий пользователей.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4" th:if="${user.role.name() == 'ADMIN'}">
+            <a th:href="@{/admin/users}" class="card shadow-sm text-decoration-none h-100">
+                <div class="card-body">
+                    <h2 class="h5">👥 Роли пользователей</h2>
+                    <p class="text-muted mb-0">Назначение ролей USER и ADMIN.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a th:href="@{/about}" class="card shadow-sm text-decoration-none h-100">
+                <div class="card-body">
+                    <h2 class="h5">ℹ️ О приложении</h2>
+                    <p class="text-muted mb-0">Информация о приложении и разработчике.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>
