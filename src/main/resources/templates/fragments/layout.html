@@ -17,9 +17,9 @@
 <body>
 
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
-    <div class="container flex-wrap">
+    <div class="container-fluid px-4 flex-wrap">
         <a class="navbar-brand" th:href="@{/}">📚 Книжный каталог</a>
-        <ul class="navbar-nav flex-row flex-wrap me-auto gap-3">
+        <ul class="navbar-nav flex-row flex-wrap me-auto">
             <li class="nav-item"><a class="nav-link" th:href="@{/}">Главная</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/books}">Книги</a></li>
             <li class="nav-item"><a class="nav-link" th:href="@{/stores}">Магазины</a></li>

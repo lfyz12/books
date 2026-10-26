@@ -9,6 +9,11 @@ main {
     flex: 1;
 }
 
+.navbar .nav-link {
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+}
+
 .auth-card {
     max-width: 420px;
     margin: 60px auto;

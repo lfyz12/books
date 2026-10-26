@@ -26,8 +26,8 @@
                     <th>Автор</th>
                     <th>Жанр</th>
                     <th>Год</th>
-                    <th class="text-end">Цена, ₽</th>
-                    <th class="text-end">Кол-во</th>
+                    <th class="text-end text-nowrap">Цена, ₽</th>
+                    <th class="text-end text-nowrap">Кол-во</th>
                     <th>Магазин</th>
                     <th>Создал</th>
                     <th sec:authorize="hasAnyRole('USER', 'ADMIN')"></th>
@@ -39,7 +39,7 @@
                     <td th:text="${book.author}">Автор</td>
                     <td th:text="${book.genre}">Жанр</td>
                     <td th:text="${book.publishYear}">2000</td>
-                    <td class="text-end"
+                    <td class="text-end text-nowrap"
                         th:text="${#numbers.formatDecimal(book.price, 1, 'WHITESPACE', 2, 'COMMA')}">0</td>
                     <td class="text-end" th:text="${book.quantity}">0</td>
                     <td th:text="${book.store.name}">Магазин</td>
